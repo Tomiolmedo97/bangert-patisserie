@@ -8,5 +8,4 @@ screenshots
 *.log
 .env
 .env.*
-dist
-.output
+attachments
