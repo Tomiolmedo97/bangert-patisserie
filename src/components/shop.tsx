@@ -15,7 +15,16 @@ import {
 import { useCart } from "@/store/cart";
 import { Logo } from "@/components/logo";
 
+function WhatsAppIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true" fill="currentColor">
+      <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.4a10 10 0 0 0 4.65 1.16h.01c5.46 0 9.89-4.4 9.89-9.83C21.94 6.4 17.5 2 12.04 2Zm5.76 13.9c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.81-.11-.41-.14-.95-.31-1.63-.61-2.87-1.24-4.74-4.13-4.88-4.32-.14-.19-1.16-1.54-1.16-2.94s.73-2.08 1-2.37c.24-.26.64-.38.86-.38.21 0 .43.01.62.02.2.01.46-.07.72.55.26.64.9 2.2.98 2.36.08.16.13.35.03.56-.1.21-.16.35-.3.54-.14.19-.3.42-.43.56-.14.14-.28.3-.12.58.16.28.72 1.18 1.54 1.91 1.06.94 1.95 1.23 2.23 1.37.28.14.44.12.6-.07.16-.19.7-.81.88-1.09.19-.28.37-.23.62-.14.26.09 1.62.76 1.9.9.28.14.46.21.53.32.07.12.07.68-.17 1.36Z" />
+    </svg>
+  );
+}
+
 const IG = "https://www.instagram.com/bangert.patisserie/";
+const WA = "5491154048006";
 
 const MARQUEE = [
   "Chocotorta",
@@ -78,8 +87,15 @@ export function Shop() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       if (bar) bar.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
       const hero = document.getElementById("hero-photo");
-      if (hero && window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-        hero.style.transform = `translate3d(0, ${window.scrollY * 0.16}px, 0) scale(1.06)`;
+      if (hero) {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduce) {
+          hero.style.transform = "";
+        } else {
+          const slack = hero.clientHeight * 0.06;
+          const y = Math.min(Math.max(window.scrollY, 0) * 0.05, slack);
+          hero.style.transform = `translate3d(0, ${y}px, 0) scale(1.16)`;
+        }
       }
     };
     onScroll();
@@ -203,7 +219,7 @@ export function Shop() {
                 id="hero-photo"
                 src="/cakes/hero.jpg"
                 alt="Chocotorta, rogel y torta de flores sobre una mesa de yeso"
-                className="aspect-[16/10] w-full object-cover will-change-transform"
+                className="aspect-[16/10] w-full origin-center object-cover object-center"
               />
             </div>
           </div>
@@ -315,7 +331,7 @@ export function Shop() {
           <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2">
             <div className="reveal">
               <p className="text-xs uppercase tracking-[0.22em] text-cocoa">Cómo encargar</p>
-              <h2 className="mt-2 font-display text-4xl text-balance">Armás el pedido. Lo confirmamos por Instagram.</h2>
+              <h2 className="mt-2 font-display text-4xl text-balance">Armás el pedido. Lo confirmamos por WhatsApp.</h2>
               <ol className="mt-8 space-y-5 text-sm leading-relaxed">
                 <li className="grid grid-cols-[2rem_1fr] gap-3">
                   <span className="font-display text-xl text-cocoa">01</span>
@@ -327,7 +343,7 @@ export function Shop() {
                 </li>
                 <li className="grid grid-cols-[2rem_1fr] gap-3">
                   <span className="font-display text-xl text-cocoa">03</span>
-                  <span>Copiá el pedido y mandalo a @bangert.patisserie. Ahí se cierra fecha y valor.</span>
+                  <span>Enviá el pedido por WhatsApp. Ahí se cierra fecha y valor.</span>
                 </li>
               </ol>
             </div>
@@ -391,7 +407,6 @@ function CartDrawer() {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
-  const [copied, setCopied] = useState(false);
 
   const detailed = useMemo(
     () =>
@@ -408,9 +423,9 @@ function CartDrawer() {
 
   const total = detailed.reduce((sum, line) => sum + line.total, 0);
 
-  async function copyOrder() {
+  function sendWhatsApp() {
     const body = [
-      "Pedido Bangert Pâtisserie",
+      "Hola, quiero encargar en Bangert Pâtisserie:",
       name ? `Nombre: ${name}` : "Nombre: (sin completar)",
       date ? `Retiro: ${date}` : "Retiro: a coordinar",
       note ? `Nota: ${note}` : "",
@@ -421,18 +436,10 @@ function CartDrawer() {
       ),
       "",
       `Total de referencia: ${formatArs(total)}`,
-      "Confirmo por Instagram @bangert.patisserie",
     ]
       .filter(Boolean)
       .join("\n");
-
-    try {
-      await navigator.clipboard.writeText(body);
-      setCopied(true);
-    } catch {
-      setCopied(false);
-    }
-    window.open(IG, "_blank", "noopener,noreferrer");
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(body)}`, "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -541,10 +548,11 @@ function CartDrawer() {
           <button
             type="button"
             disabled={detailed.length === 0}
-            onClick={() => void copyOrder()}
-            className="tap min-h-12 w-full rounded-full bg-ink text-sm text-paper disabled:opacity-40"
+            onClick={sendWhatsApp}
+            className="tap inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#128C7E] text-sm text-white disabled:opacity-40"
           >
-            {copied ? "Pedido copiado · abrir Instagram" : "Copiar pedido y escribir"}
+            <WhatsAppIcon />
+            Enviar pedido por WhatsApp
           </button>
           {detailed.length > 0 ? (
             <button type="button" className="tap mt-2 min-h-11 w-full text-sm text-stone" onClick={clear}>
