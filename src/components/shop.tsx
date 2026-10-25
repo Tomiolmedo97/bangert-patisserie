@@ -13,7 +13,7 @@ import {
   type SizeId,
 } from "@/data/cakes";
 import { useCart } from "@/store/cart";
-import { Wordmark } from "@/components/logo";
+import { Logo } from "@/components/logo";
 
 const IG = "https://www.instagram.com/bangert.patisserie/";
 
@@ -122,9 +122,9 @@ export function Shop() {
           scrolled ? "border-b border-line bg-paper/90 backdrop-blur-md" : "border-b border-transparent"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+        <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
           <a href="#inicio" className="tap" aria-label="Bangert Pâtisserie, inicio">
-            <Wordmark compact />
+            <Logo className="h-16 w-16" />
           </a>
           <nav className="flex items-center gap-1 sm:gap-4">
             <a href="#carta" className="tap hidden px-3 py-2 text-sm text-stone sm:inline">
@@ -147,7 +147,7 @@ export function Shop() {
       </header>
 
       <main id="inicio">
-        <section className="mx-auto grid max-w-6xl items-end gap-8 px-4 pt-24 pb-10 sm:px-6 sm:pt-28 lg:grid-cols-12 lg:gap-12 lg:pb-16">
+        <section className="mx-auto grid max-w-6xl items-end gap-8 px-4 pt-28 pb-10 sm:px-6 sm:pt-32 lg:grid-cols-12 lg:gap-12 lg:pb-16">
           <div className="lg:col-span-5">
             <p className="hero-word text-xs uppercase tracking-[0.28em] text-cocoa" style={{ animationDelay: "40ms" }}>
               San Miguel · Buenos Aires
@@ -345,7 +345,7 @@ export function Shop() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-6">
           <div>
-            <Wordmark />
+            <Logo alt="Bangert Pâtisserie" className="h-40 w-40" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-pretty text-stone">
               Pastelería artesanal · San Miguel, Buenos Aires. Consultas por Instagram, también en @celuubangert.
             </p>
