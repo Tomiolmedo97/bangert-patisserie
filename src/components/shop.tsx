@@ -27,16 +27,17 @@ const IG = "https://www.instagram.com/bangert.patisserie/";
 const WA = "5491154048006";
 
 const MARQUEE = [
-  "Chocotorta",
+  "Cheesecake Pistacho",
+  "Brownie Dúo",
+  "Cheesecake Maracuya",
   "Rogel",
-  "Marquise",
-  "Lemon pie",
-  "Pistacho",
-  "Selva negra",
-  "Flores",
-  "Cheesecake",
-  "Red velvet",
-  "Brownie",
+  "Tarta Havannet",
+  "Torta Personalizada",
+  "Key Lime Pie",
+  "Cheesecake Frutos Rojos",
+  "Torta Chaja",
+  "Tarta de Frutilla",
+  "Torta Matilda",
 ];
 
 function useHydrated() {
@@ -218,7 +219,7 @@ export function Shop() {
               <img
                 id="hero-photo"
                 src="/cakes/hero.jpg"
-                alt="Chocotorta, rogel y torta de flores sobre una mesa de yeso"
+                alt="Torta Matilda de chocolate con crema Bariloche"
                 className="aspect-[16/10] w-full origin-center object-cover object-center"
               />
             </div>
@@ -349,8 +350,8 @@ export function Shop() {
             </div>
             <div className="reveal reveal-delay-2 overflow-hidden rounded-3xl">
               <img
-                src="/cakes/flores.jpg"
-                alt="Torta de buttercream marfil con flores de azúcar"
+                src="/cakes/torta-personalizada-bautismo.jpg"
+                alt="Torta personalizada de bautismo"
                 className="aspect-[4/3] h-full w-full object-cover"
               />
             </div>
